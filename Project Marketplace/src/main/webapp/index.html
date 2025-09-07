@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Project Marketplace</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css"/>
+  <style>
+    * {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
+    header {
+      background-color: #0f172a;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+
+    header h1 {
+      font-size: 28px;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .hero {
+      height: 400px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .intro {
+      padding: 40px 20px;
+      text-align: center;
+      background-color: #ffffff;
+    }
+
+    .intro h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: #1e3a8a;
+    }
+
+    .intro p {
+      font-size: 18px;
+      max-width: 900px;
+      margin: 0 auto;
+      line-height: 1.6;
+      color: #555;
+    }
+
+    .modules {
+      padding: 40px 20px;
+      text-align: center;
+      background-color: #f9fafb;
+    }
+
+    .modules h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: #1e3a8a;
+    }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .module {
+      background-color: white;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .module:hover {
+      transform: translateY(-5px);
+    }
+
+    .module i {
+      font-size: 40px;
+      color: #1e40af;
+      margin-bottom: 15px;
+    }
+
+    .module h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .reviews {
+      padding: 50px 20px;
+    background-image: linear-gradient(to top, #d299c2 0%, #fef9d7 100%);
+      text-align: left;
+    }
+
+    .reviews h2 {
+      font-size: 30px;
+      margin-bottom: 30px;
+      text-align: center;
+      color: #1e3a8a;
+    }
+
+    .review {
+      display: flex;
+      align-items: flex-start;
+      background-image: linear-gradient(60deg, #64b3f4 0%, #c2e59c 100%);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .review img {
+      width: 60px;
+      height: 60px;
+      margin-right: 20px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .review-content {
+      flex: 1;
+    }
+
+    .review-content h4 {
+      font-size: 18px;
+      margin-bottom: 5px;
+      color: #1e3a8a;
+    }
+
+    .review-content p {
+      margin: 10px 0;
+    }
+
+    .review-content time {
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    footer {
+      background-color: #0f172a;
+      color: #ccc;
+      text-align: center;
+      padding: 20px;
+      margin-top: 0;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      nav {
+        margin-top: 10px;
+      }
+
+      .review {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .review img {
+        margin-bottom: 15px;
+      }
+
+      .review-content {
+        text-align: center;
+      }
+    }
+  </style>
+
+  <script>
+    let images = [
+      'img/1.jpg',
+      'img/2.jpg',
+      'img/3.jpg',
+      'img/4.jpg',
+      'img/5.jpg'
+    ];
+    let current = 0;
+
+    function changeImage() {
+      const heroImg = document.getElementById("hero-img");
+      current = (current + 1) % images.length;
+      heroImg.style.opacity = 0;
+      setTimeout(() => {
+        heroImg.src = images[current];
+        heroImg.style.opacity = 1;
+      }, 500);
+    }
+
+    window.onload = function () {
+      setInterval(changeImage, 5000);
+    };
+  </script>
+</head>
+
+<body>
+
+  <header>
+    <h1>Project Marketplace</h1>
+    <nav>
+      <a href="home.html">Home</a>
+      <a href="login.html">Register/Login</a>
+      <a href="contact.jsp">Contact</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <img id="hero-img" src="https://source.unsplash.com/1600x400/?technology" alt="Banner"/>
+  </div>
+
+  <section class="intro">
+    <h2>Welcome to Project Marketplace</h2>
+    <p>
+      Project Marketplace is a trusted platform where aspiring professionals, freelancers, and businesses connect over high-quality software solutions. Whether you're looking to purchase ready-to-use project templates or showcase your development expertise, our streamlined platform ensures a seamless and secure experience for all. Join a thriving digital marketplace where innovation meets opportunity.
+    </p>
+  </section>
+
+  <section class="modules">
+    <h2>Why Choose Project Marketplace?</h2>
+    <div class="module-grid">
+      <div class="module">
+        <i class='bx bx-user'></i>
+        <h3>Seamless User Experience</h3>
+        <p>Intuitive interface that makes browsing and purchasing effortless for all users.</p>
+      </div>
+      <div class="module">
+        <i class='bx bx-shield'></i>
+        <h3>Verified Listings</h3>
+        <p>Only curated and high-quality projects make it to our marketplace.</p>
+      </div>
+      <div class="module">
+        <i class='bx bx-support'></i>
+        <h3>Dedicated Support</h3>
+        <p>Our support team is ready to assist you with any concerns or queries.</p>
+      </div>
+      <div class="module">
+        <i class='bx bx-trending-up'></i>
+        <h3>Growth Opportunities</h3>
+        <p>Ideal platform for developers to build their portfolio and increase visibility.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reviews">
+    <h2>What Our Users Say</h2>
+    
+    <div class="review">
+      <img src="https://i.pravatar.cc/60?img=1" alt="User">
+      <div class="review-content">
+        <h4>Priya Sharma</h4>
+        <p>"Amazing platform! Found exactly the project I needed."</p>
+        <time>May 25, 2025 - 11:00 AM</time>
+      </div>
+    </div>
+
+    <div class="review">
+      <img src="https://i.pravatar.cc/60?img=2" alt="User">
+      <div class="review-content">
+        <h4>Ravi Mehta</h4>
+        <p>"Great experience with a helpful developer. Highly recommended!"</p>
+        <time>May 24, 2025 - 3:45 PM</time>
+      </div>
+    </div>
+
+    <div class="review">
+      <img src="https://i.pravatar.cc/60?img=3" alt="User">
+      <div class="review-content">
+        <h4>Anjali Desai</h4>
+        <p>"Very secure and user-friendly. Loved the design."</p>
+        <time>May 23, 2025 - 9:20 PM</time>
+      </div>
+    </div>
+
+    <div class="review">
+      <img src="https://i.pravatar.cc/60?img=4" alt="User">
+      <div class="review-content">
+        <h4>Amit Verma</h4>
+        <p>"The admin resolved my issue quickly. Excellent service!"</p>
+        <time>May 22, 2025 - 5:10 PM</time>
+      </div>
+    </div>
+  </section>
+
+<!-- Footer -->
+<footer class="text-center text-white mt-5" style="background-color: #343a40;">
+  <div class="container p-4">
+    <section class="mb-4">
+      <a class="btn btn-outline-light btn-floating m-1" href="#"><i class="fab fa-facebook-f"></i></a>
+      <a class="btn btn-outline-light btn-floating m-1" href="#"><i class="fab fa-twitter"></i></a>
+      <a class="btn btn-outline-light btn-floating m-1" href="#"><i class="fab fa-google"></i></a>
+      <a class="btn btn-outline-light btn-floating m-1" href="https://www.instagram.com/vista.lens.07/profilecard/?igsh=NnBhOTJ1dWN4eXRx"><i class="fab fa-instagram"></i></a>
+      <a class="btn btn-outline-light btn-floating m-1" href="https://www.linkedin.com/in/prathamesh-pawar-a55588276/?originalSubdomain=in"><i class="fab fa-linkedin-in"></i></a>
+      <a class="btn btn-outline-light btn-floating m-1" href="https://github.com/pathu0707"><i class="fab fa-github"></i></a>
+    </section>
+  </div>
+  <div class="text-center p-3" style="background-color: rgba(0,0,0,0.2); font-size: 14px;">
+    © 2025 Project Marketplace | Developed with ❤️
+  </div>
+</footer>
+</body>
+</html>

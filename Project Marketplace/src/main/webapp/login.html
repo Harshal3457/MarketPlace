@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register & Login</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+background-image: linear-gradient(to top, #9795f0 0%, #fbc8d4 100%);
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form-container {
+      background: #fff;
+      padding: 30px;
+      width: 100%;
+      max-width: 450px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .form__content {
+      display: none;
+      flex-direction: column;
+    }
+
+    .form__content.active {
+      display: flex;
+    }
+
+    .form__title {
+      font-size: 24px;
+      margin-bottom: 15px;
+      text-align: center;
+      color: #333;
+    }
+
+    .form__div {
+      margin-bottom: 10px; /* reduced spacing */
+    }
+
+    .form__label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .form__input {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+
+    .form__button {
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .form__button:hover {
+      background-color: #0056b3;
+    }
+
+    .form__toggle {
+      margin-top: 12px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .form__toggle a {
+      color: #007bff;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .form__toggle a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-container">
+  <!-- Register Form -->
+  <form class="form__content active" id="registerForm" action="RegisterServlet" method="post">
+    <h1 class="form__title">Register</h1>
+
+    <div class="form__div">
+      <label class="form__label">Full Name</label>
+      <input type="text" class="form__input" name="fullname" required />
+    </div>
+
+    <div class="form__div">
+      <label class="form__label">Username</label>
+      <input type="text" class="form__input" name="username" required />
+    </div>
+
+    <div class="form__div">
+      <label class="form__label">Email</label>
+      <input type="email" class="form__input" name="email" required />
+    </div>
+
+    <div class="form__div">
+      <label class="form__label">Password</label>
+      <input type="password" class="form__input" name="password" required />
+    </div>
+
+    <div class="form__div">
+      <label class="form__label">Confirm Password</label>
+      <input type="password" class="form__input" name="confirm_password" required />
+    </div>
+
+    <div class="form__div">
+      <label class="form__label">Phone No</label>
+      <input type="text" class="form__input" name="phone_no"/>
+    </div>
+
+    <div class="form__div">
+      <label class="form__label">Address</label>
+      <input type="text" class="form__input" name="address" />
+    </div>
+
+    <div class="form__div">
+      <label class="form__label">Register As</label>
+      <select class="form__input" id="userType" name="role" required>
+        <option value="">Choose...</option>
+        <option value="client">Client</option>
+        <option value="developer">Developer</option>
+      </select>
+    </div>
+
+    <input type="submit" class="form__button" value="Register" />
+    
+    
+    
+
+    
+
+    <p class="form__toggle">Already have an account? <a id="showLogin">Login here</a></p>
+  </form>
+
+  <!-- Login Form -->
+  <form class="form__content" id="loginForm" action="LoginServlet" method="post">
+    <h1 class="form__title">Login</h1>
+
+    <div class="form__div">
+      <label class="form__label">Username</label>
+      <input type="text" class="form__input" name="username" required />
+    </div>
+
+    <div class="form__div">
+      <label class="form__label">Password</label>
+      <input type="password" class="form__input" name="password" required />
+    </div>
+
+    <a href="#" class="form__toggle" style="text-align: right; margin-top: -6px; margin-bottom: 10px;">Forgot Password?</a>
+
+    <input type="submit" class="form__button" value="Login" />
+
+    <p class="form__toggle">Don't have an account? <a id="showRegister">Register here</a></p>
+  </form>
+</div>
+<script>
+  const registerForm = document.getElementById("registerForm");
+  const loginForm = document.getElementById("loginForm");
+  const showLogin = document.getElementById("showLogin");
+  const showRegister = document.getElementById("showRegister");
+  const userType = document.getElementById("userType");
+
+  registerForm.addEventListener("submit", function (e) {
+    if (!userType.value) {
+      e.preventDefault();
+      alert("Please select Client or Developer.");
+    }
+  });
+
+  showLogin?.addEventListener("click", function () {
+    registerForm.classList.remove("active");
+    loginForm.classList.add("active");
+  });
+
+  showRegister?.addEventListener("click", function () {
+    loginForm.classList.remove("active");
+    registerForm.classList.add("active");
+  });
+</script>
+
+
+</body>
+</html>
