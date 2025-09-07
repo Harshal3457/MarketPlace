@@ -38,4 +38,4 @@ This project is a **Java Servlet, JSP, and MySQL-based web application** that pr
 ## Installation & Setup
 1. Clone the repository:  
    ```bash
-   git clone < 
+   git clone <https://github.com/Harshal3457/MarketPlace>
