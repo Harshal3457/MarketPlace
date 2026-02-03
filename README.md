@@ -2,7 +2,7 @@
 
 # Project Management and Sharing Platform
 
-This project is a **Java Servlet, JSP, and MySQL-based web application** that provides a platform for developers to upload their projects and for clients to browse and download them. The system includes role-based access for **Admin, Developer, and Client**, ensuring secure and structured usage.
+This project is a **Java Servlet, JSP, and MySQL-based web application** that provides a platform for developers to upload their projects and for clients to browse and download them. The system includes role-based access for **Admin, Developer, and Client**, ensuring secure and structured usage..
 
 ## Features
 
