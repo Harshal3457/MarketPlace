@@ -15,7 +15,7 @@ This project is a **Java Servlet, JSP, and MySQL-based web application** that pr
 ### 👥 Client
 - Register and manage profile  
 - Browse available projects  
-- Download projects uploaded by developers  
+- Download projects uploaded by developers. 
 
 ### 🔑 Admin
 - Manage all users (developers and clients)  
