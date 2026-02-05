@@ -1,77 +1,103 @@
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-
+import jakarta.servlet.http.*;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        PrintWriter pw = res.getWriter();
+
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/marketplace";
+    private static final String DB_USER = "root";
+    private static final String DB_PASS = "root";
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse res)
+            throws ServletException, IOException {
+
         res.setContentType("text/html");
 
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        try {
-            // Admin login logic first
-            if ("admin0707".equals(username) && "admin123".equals(password)) {
-                HttpSession session = req.getSession();
-                session.setAttribute("username", username);
-                session.setAttribute("role", "admin");
-                res.sendRedirect("admin.jsp");
-                return;
-            }
+        // Basic validation
+        if (username == null || password == null ||
+            username.isEmpty() || password.isEmpty()) {
+            res.getWriter().println("Username and Password required!");
+            return;
+        }
 
+        // 🔐 Admin login (avoid hardcoding in real apps)
+        if ("admin0707".equals(username) && "admin123".equals(password)) {
+            createSession(req, username, "admin", 0);
+            res.sendRedirect("admin.jsp");
+            return;
+        }
+
+        String query = "SELECT user_id, password, role, status FROM users WHERE username=?";
+
+        try (
+            Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            PreparedStatement st = con.prepareStatement(query)
+        ) {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/marketplace", "root", "root");
 
-            String query = "SELECT status, user_id, password, role FROM user WHERE username=?";
-            PreparedStatement st = con.prepareStatement(query);
             st.setString(1, username);
             ResultSet rs = st.executeQuery();
 
             if (rs.next()) {
-                String status = rs.getString("status");
-                String storedPassword = rs.getString("password");
+
+                String dbPassword = rs.getString("password");
                 String role = rs.getString("role");
+                String status = rs.getString("status");
                 int userId = rs.getInt("user_id");
 
-                if (password.equals(storedPassword) && "active".equals(status)) {
-                    HttpSession session = req.getSession();
-                    session.setAttribute("username", username);
-                    session.setAttribute("role", role);
-                    session.setAttribute("user_id", userId);
-
-                    if ("client".equals(role)) {
-                        res.sendRedirect("client.jsp");
-                    } else if ("developer".equals(role)) {
-                        res.sendRedirect("developer.jsp");
-                    } else {
-                        pw.println("Invalid role or redirect not defined.");
-                    }
-                } else {
-                    pw.println("Invalid password or inactive user.");
+                // ✅ Password check
+                if (!password.equals(dbPassword)) {
+                    res.getWriter().println("Invalid password!");
+                    return;
                 }
+
+                // ✅ Status check
+                if (!"active".equalsIgnoreCase(status)) {
+                    res.getWriter().println("Account is inactive!");
+                    return;
+                }
+
+                // ✅ Session creation
+                createSession(req, username, role, userId);
+
+                // ✅ Role based redirect
+                switch (role.toLowerCase()) {
+                    case "client":
+                        res.sendRedirect("client.jsp");
+                        break;
+                    case "developer":
+                        res.sendRedirect("developer.jsp");
+                        break;
+                    default:
+                        res.getWriter().println("Unknown role!");
+                }
+
             } else {
-                pw.println("User not found");
+                res.getWriter().println("User not found!");
             }
 
-            rs.close();
-            st.close();
-            con.close();
         } catch (Exception e) {
             e.printStackTrace();
-            res.getWriter().println("Error: " + e.getMessage());
+            res.getWriter().println("Server Error. Please try again later.");
         }
     }
-}
 
+    // 🔐 Centralized session handling
+    private void createSession(HttpServletRequest req, String username, String role, int userId) {
+        HttpSession oldSession = req.getSession(false);
+        if (oldSession != null) oldSession.invalidate();
+
+        HttpSession newSession = req.getSession(true);
+        newSession.setAttribute("username", username);
+        newSession.setAttribute("role", role);
+        newSession.setAttribute("user_id", userId);
+        newSession.setMaxInactiveInterval(15 * 60); // 15 mins
+    }
+}
